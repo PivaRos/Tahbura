@@ -7,10 +7,16 @@ export const GOV_PULLING_RATE = process.env.GOV_PULLING_RATE
   : 1000;
 export const govKey = process.env.GOV_KEY;
 export const govUrl = process.env.GOV_URL;
+export const MongodbUrl = process.env.MONGODB_URL ?? "";
 
 if (!govKey) {
   throw new Error(
     "No gov key found in .env, please make sure you enter the key before you start the app"
+  );
+}
+if (!MongodbUrl) {
+  throw new Error(
+    "No mongodb url found in .env, please make sure you enter the url before you start the app"
   );
 }
 
