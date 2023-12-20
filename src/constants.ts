@@ -15,7 +15,7 @@ if (!govKey) {
 }
 
 if (!govUrl) {
-  //only accepts traffic from specific ip what was added to the white list
+  //only accepts traffic from specific ip that was added to the white list
   throw new Error(
     "No gov url found in .env, please make sure you enter the url before you start the app"
   );

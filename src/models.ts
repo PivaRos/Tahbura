@@ -1,59 +1,65 @@
-export interface Root {
-  Siri: { ServiceDelivery: ServiceDelivery };
+export interface MonitoredCall {
+  StopPointRef: string;
+  Order: string;
+  ExpectedArrivalTime: string;
+  DistanceFromStop: string;
+}
+
+export interface VehicleLocation {
+  Longitude: string;
+  Latitude: string;
+}
+
+interface FramedVehicleJourneyRef {
+  DataFrameRef: string;
+  DatedVehicleJourneyRef: string;
+}
+
+interface MonitoredVehicleJourney {
+  LineRef: string;
+  DirectionRef: string;
+  FramedVehicleJourneyRef: FramedVehicleJourneyRef;
+  PublishedLineName: string;
+  OperatorRef: string;
+  DestinationRef: string;
+  OriginAimedDepartureTime: string;
+  ConfidenceLevel: string;
+  VehicleLocation: VehicleLocation;
+  Bearing?: string;
+  Velocity?: string;
+  VehicleRef: string;
+  MonitoredCall: MonitoredCall;
+}
+
+interface MonitoredStopVisit {
+  "-version": string;
+  ResponseTimestamp: string;
+  Status: string;
+  RecordedAtTime?: string;
+  ItemIdentifier?: string;
+  MonitoringRef?: string;
+  MonitoredVehicleJourney: MonitoredVehicleJourney;
+}
+
+interface StopMonitoringDelivery {
+  ResponseTimestamp: string;
+  Status: string;
+  MonitoredStopVisit: MonitoredStopVisit[];
 }
 
 export interface ServiceDelivery {
   ResponseTimestamp: string;
   ProducerRef: string;
   ResponseMessageIdentifier: string;
-  RequestMessageRef: number;
-  Status: boolean;
-  StopMonitoringDelivery: StopMonitoringDelivery;
+  RequestMessageRef: string;
+  Status: string;
+  StopMonitoringDelivery: StopMonitoringDelivery[];
 }
 
-export interface StopMonitoringDelivery {
-  ResponseTimestamp: string;
-  Status: boolean;
-  MonitoredStopVisit: MonitoredStopVisit[];
+interface Siri {
+  ServiceDelivery: ServiceDelivery;
 }
 
-export interface MonitoredStopVisit {
-  RecordedAtTime: string;
-  ItemIdentifier: number;
-  MonitoringRef: number;
-  MonitoredVehicleJourney: MonitoredVehicleJourney;
-}
-
-export interface MonitoredVehicleJourney {
-  LineRef: number;
-  DirectionRef: number;
-  FramedVehicleJourneyRef: FramedVehicleJourneyRef;
-  PublishedLineName: any;
-  OperatorRef: number;
-  DestinationRef: number;
-  OriginAimedDepartureTime: string;
-  ConfidenceLevel: string;
-  VehicleLocation?: VehicleLocation;
-  Bearing: number;
-  Velocity: number;
-  VehicleRef: number;
-  MonitoredCall: MonitoredCall;
-}
-
-export interface FramedVehicleJourneyRef {
-  DataFrameRef: string;
-  DatedVehicleJourneyRef: number;
-}
-
-export interface VehicleLocation {
-  Longitude: number;
-  Latitude: number;
-}
-
-export interface MonitoredCall {
-  StopPointRef: number;
-  Order: number;
-  ExpectedArrivalTime: string;
-  DistanceFromStop: number;
-  AimedArrivalTime?: string;
+export interface JSONData {
+  Siri: Siri;
 }
