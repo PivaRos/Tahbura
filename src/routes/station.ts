@@ -1,5 +1,4 @@
 import { Router } from "express";
-
 import { LocationValidation } from "../utils/validation/LocationValidation";
 import { Request, Response } from "express";
 import {

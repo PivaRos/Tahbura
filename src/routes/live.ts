@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import instance from "../utils/govInstance";
 import { isAxiosError } from "axios";
-import { JSONData } from "../models/models";
+import { JSONData } from "../models/gov";
 
 export const router = Router();
 
