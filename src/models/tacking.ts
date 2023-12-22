@@ -1,7 +1,13 @@
+import { VehicleLocation } from "./gov";
+
 export interface ILineTracking {
-  LineRef: number;
+  LineRef: string;
   AvgVelocity: number;
   LineName: string;
-  StationRef: number;
+  StationRef: string;
   DistanceFromStation: number;
+  LastFocused: number;
+  LastUpdated: number;
+  VehicleLocation: VehicleLocation;
+  TimesUpdated: number;
 }

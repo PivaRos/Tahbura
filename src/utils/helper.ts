@@ -14,3 +14,17 @@ export const HandleTimeMinutes = (
     return -1;
   }
 };
+
+export function has30MinutesPassed(date1: number, date2: number): boolean {
+  // Convert the numeric dates to JavaScript Date objects
+  const startDate = new Date(date1);
+  const endDate = new Date(date2);
+
+  // Calculate the time difference in milliseconds
+  //@ts-ignore
+  const timeDifference = endDate - startDate;
+
+  // Check if the time difference is greater than or equal to 30 minutes (in milliseconds)
+  const thirtyMinutesInMillis = 30 * 60 * 1000; // 30 minutes in milliseconds
+  return timeDifference >= thirtyMinutesInMillis;
+}

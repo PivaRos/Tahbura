@@ -5,7 +5,7 @@ class Queue<T> {
     this.queue = [];
   }
 
-  enqueue(element: any) {
+  enqueue(element: T) {
     // add element
     return this.queue.push(element);
   }
