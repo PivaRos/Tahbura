@@ -1,26 +1,35 @@
 import { Router } from "express";
-import { stationsCollection } from "../utils/mongodb";
-import { findClosestStation } from "../utils/helper";
+
+import { LocationValidation } from "../utils/validation/LocationValidation";
+import { Request, Response } from "express";
+import {
+  GetClosestStation,
+  GetStationByStationId,
+} from "../api/StationServices";
 
 export const router = Router();
 
 router.get("/:id", async (req, res) => {
-  const station = await stationsCollection.findOne({
-    StationId: +(req.params.id ?? -1),
-  });
+  const station = await GetStationByStationId(+(req.params.id ?? -1));
   return res.json({
     lat: station?.location.coordinates[1],
     long: station?.location.coordinates[0],
   });
 });
 
-router.post("/location", async (req, res) => {
-  const station = await findClosestStation(
-    +req.body.lat,
-    +req.body.long,
-    stationsCollection,
-    200
-  );
-  if (!station) return res.sendStatus(500);
-  return res.json(station);
-});
+router.post(
+  "/location",
+  LocationValidation(),
+  async (req: Request, res: Response) => {
+    const { lat, long, maxDistanceKm, numberOfStations } = req.body;
+    const station = await GetClosestStation({
+      lat,
+      long,
+      maxDistanceKm,
+      numberOfStations,
+    });
+
+    if (!station) return res.sendStatus(500);
+    return res.json(station);
+  }
+);
