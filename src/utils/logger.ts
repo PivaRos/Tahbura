@@ -1,4 +1,4 @@
-import { __DEV__ } from "../constants";
+import { __DEV__ } from "./constants";
 
 const logger = (text: string | unknown, ...logArgs: any[]) => {
   if (__DEV__ && text) {

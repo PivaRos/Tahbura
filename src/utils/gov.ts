@@ -1,4 +1,4 @@
-import { GOV_PULLING_RATE } from "../constants";
+import { GOV_PULLING_RATE } from "./constants";
 import logger from "./logger";
 
 export const govPullingInit = (app: Express.Application) => {
