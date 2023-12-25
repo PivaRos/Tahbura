@@ -9,6 +9,7 @@ import {
 export const router = Router();
 
 router.get("/:id", async (req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=3600");
   const station = await GetStationByStationId(+(req.params.id ?? -1));
   return res.json({
     lat: station?.location.coordinates[1],

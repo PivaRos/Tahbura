@@ -1,5 +1,6 @@
 import { Collection, Document, WithId } from "mongodb";
 import { IStationInfo } from "../models/station";
+import { TrackingTimeLimitMin } from "./constants";
 
 //return time in minutes
 export const HandleTimeMinutes = (
@@ -15,7 +16,7 @@ export const HandleTimeMinutes = (
   }
 };
 
-export function has30MinutesPassed(date1: number, date2: number): boolean {
+export function hasPassedLimit(date1: number, date2: number): boolean {
   // Convert the numeric dates to JavaScript Date objects
   const startDate = new Date(date1);
   const endDate = new Date(date2);
@@ -25,6 +26,6 @@ export function has30MinutesPassed(date1: number, date2: number): boolean {
   const timeDifference = endDate - startDate;
 
   // Check if the time difference is greater than or equal to 30 minutes (in milliseconds)
-  const thirtyMinutesInMillis = 30 * 60 * 1000; // 30 minutes in milliseconds
-  return timeDifference >= thirtyMinutesInMillis;
+  const thirtyMinutesInMills = TrackingTimeLimitMin * 60 * 1000; // 30 minutes in milliseconds
+  return timeDifference >= thirtyMinutesInMills;
 }

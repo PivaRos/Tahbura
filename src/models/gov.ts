@@ -56,7 +56,7 @@ export interface ServiceDelivery {
   StopMonitoringDelivery: StopMonitoringDelivery[];
 }
 
-interface Siri {
+export interface Siri {
   ServiceDelivery: ServiceDelivery;
 }
 

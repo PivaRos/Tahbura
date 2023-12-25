@@ -10,6 +10,7 @@ export const govUrl = process.env.GOV_URL;
 export const MongodbUrl = process.env.MONGODB_URL ?? "";
 export const OpenvpnFileName = process.env.OPENVPN_FILENAME ?? "";
 export const OpenvpnHost = process.env.OPENVPN_HOST ?? "";
+export const TrackingTimeLimitMin = +(process.env.TRACKING_LIMIT_MIN ?? 30);
 
 if (!govKey) {
   throw new Error(
