@@ -36,7 +36,7 @@ export const LiveRouter = (
         }
       } else {
         const tracking = await getTracking(Tracking, +req.params.stopId);
-        return tracking;
+        return res.json(tracking);
       }
     } catch (error) {
       if (isAxiosError(error) && error.status) {

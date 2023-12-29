@@ -1,7 +1,7 @@
 import express from "express";
 import { router as ApiRouter } from "./routes/api";
 import { router as StationRouter } from "./routes/station";
-import { PORT, update_method } from "./utils/constants";
+import { PORT, TrackingTimeLimitMin, update_method } from "./utils/constants";
 
 import cron from "node-cron";
 import { Siri } from "./models/gov";
@@ -22,7 +22,9 @@ cron.schedule("* * * * *", async () => {
     logger("running updates");
     if (Tracking.size) {
       await Tracking.forEach(async (item, index) => {
-        if (!hasPassedLimit(item.lastChecked, Date.now())) {
+        if (
+          !hasPassedLimit(item.lastChecked, Date.now(), TrackingTimeLimitMin)
+        ) {
           //update
           logger("updating item", index);
           const response = await instance.get("", {
@@ -38,6 +40,17 @@ cron.schedule("* * * * *", async () => {
         }
       });
     }
+  }
+});
+
+cron.schedule("* * * *", async () => {
+  //run cleanup
+  if (update_method === UPDATE_METHOD.HOOK) {
+    Tracking.forEach((trackingItem, index) => {
+      if (hasPassedLimit(trackingItem.lastChecked, Date.now(), 35)) {
+        Tracking.delete(index);
+      }
+    });
   }
 });
 

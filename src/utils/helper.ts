@@ -18,7 +18,11 @@ export const HandleTimeMinutes = (
   }
 };
 
-export function hasPassedLimit(date1: number, date2: number): boolean {
+export function hasPassedLimit(
+  date1: number,
+  date2: number,
+  timeMin: number
+): boolean {
   // Convert the numeric dates to JavaScript Date objects
   const startDate = new Date(date1);
   const endDate = new Date(date2);
@@ -28,7 +32,7 @@ export function hasPassedLimit(date1: number, date2: number): boolean {
   const timeDifference = endDate - startDate;
 
   // Check if the time difference is greater than or equal to 30 minutes (in milliseconds)
-  const thirtyMinutesInMills = TrackingTimeLimitMin * 60 * 1000; // 48 seconds in milliseconds
+  const thirtyMinutesInMills = timeMin * 1000; // 48 seconds in milliseconds
   return timeDifference >= thirtyMinutesInMills;
 }
 
@@ -41,8 +45,15 @@ export const getTracking = async (
       Siri: Siri;
       lastChecked: number;
     };
-    if (hasPassedLimit(stationTracking.lastChecked, Date.now())) {
+    if (
+      hasPassedLimit(
+        stationTracking.lastChecked,
+        Date.now(),
+        TrackingTimeLimitMin
+      )
+    ) {
       //update the tracking.
+      console.log("updating the object");
       const stationTracking = (
         await instance.get("", { params: { MonitoringRef: TrackingRef } })
       ).data as Siri;
@@ -52,9 +63,11 @@ export const getTracking = async (
       });
       return stationTracking;
     } else {
+      console.log("returning the existing object");
       return stationTracking.Siri;
     }
   } else {
+    console.log("getting first time object");
     const stationTracking = (
       await instance.get("", { params: { MonitoringRef: TrackingRef } })
     ).data as Siri;
@@ -65,7 +78,8 @@ export const getTracking = async (
       });
       return stationTracking;
     }
-    return;
+    console.log("not found");
     //no matching found
+    return;
   }
 };
