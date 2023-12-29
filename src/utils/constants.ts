@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const appJosn = require("../../app.json");
+
 export const __DEV__ = process.env.__DEV__ ?? undefined;
 export const PORT = process.env.PORT ?? "8080";
 export const GOV_PULLING_RATE = process.env.GOV_PULLING_RATE
@@ -11,6 +13,7 @@ export const MongodbUrl = process.env.MONGODB_URL ?? "";
 export const OpenvpnFileName = process.env.OPENVPN_FILENAME ?? "";
 export const OpenvpnHost = process.env.OPENVPN_HOST ?? "";
 export const TrackingTimeLimitMin = +(process.env.TRACKING_LIMIT_MIN ?? 30);
+export const update_method = appJosn.update_method ?? "pulling";
 
 if (!govKey) {
   throw new Error(
