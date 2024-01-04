@@ -10,6 +10,7 @@ import instance from "./utils/govInstance";
 import { hasPassedLimit } from "./utils/helper";
 import logger from "./utils/logger";
 import { UPDATE_METHOD } from "./models/app";
+import Route from "./modules/route";
 
 const app = express();
 
@@ -43,17 +44,26 @@ cron.schedule("* * * * *", async () => {
   }
 });
 
-cron.schedule("* * * *", async () => {
-  //run cleanup
-  if (update_method === UPDATE_METHOD.HOOK) {
-    Tracking.forEach((trackingItem, index) => {
-      if (hasPassedLimit(trackingItem.lastChecked, Date.now(), 35)) {
-        Tracking.delete(index);
-      }
-    });
-  }
-});
+// cron.schedule("* * * *", async () => {
+//   //run cleanup
+//   if (update_method === UPDATE_METHOD.HOOK) {
+//     Tracking.forEach((trackingItem, index) => {
+//       if (hasPassedLimit(trackingItem.lastChecked, Date.now(), 35)) {
+//         Tracking.delete(index);
+//       }
+//     });
+//   }
+// });
 
+const array = [
+  { lat: 32.286416, long: 34.862015 },
+  { lat: 32.286265, long: 34.870237 },
+  { lat: 32.293004, long: 34.869167 },
+  { lat: 32.373656, long: 34.953779 },
+];
+
+const route = new Route(array);
+console.log(route.getKmLength());
 app.use("/api", ApiRouter);
 app.use("/station", StationRouter);
 app.use("/live", LiveRouter(Tracking));

@@ -83,3 +83,26 @@ export const getTracking = async (
     return;
   }
 };
+
+export function getDistanceKm(
+  point1: { lat: number; long: number },
+  point2: { lat: number; long: number }
+) {
+  var R = 6371; // km
+  var dLat = toRad(point2.lat - point1.lat);
+  var dLon = toRad(point2.long - point1.long);
+  var lat1 = toRad(point1.lat);
+  var lat2 = toRad(point2.lat);
+
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return d;
+}
+
+// Converts numeric degrees to radians
+function toRad(Value: number) {
+  return (Value * Math.PI) / 180;
+}

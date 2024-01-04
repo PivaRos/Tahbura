@@ -2,7 +2,6 @@ import { Router, Request, Response } from "express";
 import instance from "../utils/govInstance";
 import { isAxiosError } from "axios";
 import { JSONData, Siri } from "../models/gov";
-import Queue from "../modules/Queue";
 import { update_method } from "../utils/constants";
 import { UPDATE_METHOD } from "../models/app";
 import { getTracking } from "../utils/helper";
